@@ -1,0 +1,255 @@
+doctype
+html
+    head
+        meta(charset="utf-8")
+        title Pendulum
+
+        //- Bootstrap
+        link(href="other/bootstrap/css/bootstrap.css" rel="stylesheet")
+        link(href="other/bootstrap/css/font-awesome.css" rel="stylesheet")
+
+        //- Главные стили
+        link(rel="stylesheet" href="css/main.min.css")
+
+        //- jQuery
+        script(src="other/jquery/jquery-3.2.1.min.js")
+        script(src="other/jquery/jquery-ui.min.js")
+
+        //- Главный скрипт
+        script(src="js/main.min.js")
+
+        //- Значения по умолчанию
+        script(src="js/default.js")
+
+    body
+        .container-fluid
+
+            //- ================  header  =====================
+            .row.header
+                .col-xs-2.col-sm-1.col-md-1.col-lg-1
+                    #logo.panel-control
+                .col-xs-10.col-sm-11.col-md-11.col-lg-11
+                    #menu
+                        .panel-control
+                            #menu-buttons
+                                .pendulum-button#menu-home
+                                    p.selected
+                                .pendulum-button#menu-one-pend
+                                    p
+                                .pendulum-button#menu-many-pend
+                                    p
+                                .pendulum-button#menu-equations
+                                    p
+                        .panel-control
+                            p#hint.light
+
+            .row.line
+
+
+            //- ================  content  =====================
+            .row.panel-control.content
+                .col-xs-12
+
+                    //- ================  'Главная'  =====================
+                    .pendulum-win(isSelected='true' contentName='home')
+                        .panel-control#content-home
+                            p.light Сайт создан в образовательных целях и демонстрации JavaScript библиотеки, которая реализует:
+                            br
+                            p.light - математическую модель движения маятника;
+                            .br
+                            p.light - математическую модель движения до 15 маятников;
+                            .br
+                            p.light - построение графиков математических функций;
+                            .br
+                            p.light - построение графиков по заданным значениям;
+                            .br
+                            p.light - нахождение корней уравнений 3-й и 4-й степени;
+                            br
+                            p.light Проект реализован в системе сборки gulp. Исходный код в свободном доступе находится здесь.
+
+                    //- ================  '1 маятник'  =====================
+                    div(isSelected='false' contentName='one-pend')
+
+                        .row
+                            .col-sm-1.col-md-1.col-lg-2
+                            .col-xs-12.col-sm-5.col-md-5.col-lg-4
+                                .pendulum-win#pendulum-animation
+                                    p.frame-name.light Маятник
+                                    canvas.col-xs-12(width="800" height="550")
+                                    .panel-control
+                                        .col-xs-2
+                                            #start.pendulum-button(pendulum-state="isStopped")
+                                        .col-xs-8
+                                            .input-wrapper
+                                                .pendulum-sector
+                                                    p Угол, Гр
+                                                    input(type="number")#alfa
+                                                .pendulum-sector
+                                                    p Длина, M
+                                                    input(type="number")#l
+
+                            .col-xs-12.col-sm-5.col-md-5.col-lg-4
+                                .pendulum-win#pendulum-graph-v
+                                    p.frame-name.light График изменения скорости V(t)
+                                    canvas.col-xs-12(width="800" height="304")
+
+                                .pendulum-win#pendulum-graph-a
+                                    p.frame-name.light График изменения ускорения a(t)
+                                    canvas.col-xs-12(width="800" height="304")
+
+                                .pendulum-win#pendulum-graph-alfa
+                                    p.frame-name.light График изменения угла отклонения &#945;(t)
+                                    canvas.col-xs-12(width="800" height="304")
+
+
+
+                    //- ================  '15 маятников'  =====================
+                    div(isSelected='false' contentName='many-pend')
+
+                        .row
+                            .col-sm-2.col-md-2.col-lg-3
+                            .pendulum-win#pendulum-animation-n.col-xs-12.col-sm-8.col-md-8.col-lg-6
+                                p.frame-name.light Несколько маятников
+                                #div-back.col-xs-12
+                                    mixin canvasN(num)
+                                        canvas(id = "can-#{num}" class = "col-xs-12" width="800" height="550")
+                                    - for(var i=0; i<15; i++) {
+                                        + canvasN(i+1)
+                                    -}
+                                .panel-control
+                                    .row
+                                        .col-xs-2
+                                            #start-n.pendulum-button(pendulum-state="isStopped")
+                                        .col-xs-8
+                                            p.count-pan.light 15 маятников
+                                        .col-xs-2
+                                            #prop-n.pendulum-button(isOpen="false")
+                                    .row#prop-n-panel(isOpen="false")
+                                        .col-xs-12
+                                            .input-wrapper
+
+                                                mixin input-n(num)
+                                                    input(id = "inp-n-#{num}" type="checkbox")
+                                                mixin input-alfa(num)
+                                                    input(id = "inp-alfa-#{num}" type="number")
+                                                mixin input-l(num)
+                                                    input(id = "inp-l-#{num}" type="number")
+
+                                                .pendulum-sector
+                                                    p#checkName Показать
+                                                    - for(var i=0; i<15; i++) {
+                                                        +input-n(i)
+                                                    -}
+                                                .pendulum-sector
+                                                    p Угол, Гр
+                                                    - for(var i=0; i<15; i++) {
+                                                        +input-alfa(i)
+                                                    -}
+                                                .pendulum-sector
+                                                    p Длина, M
+                                                    - for(var i=0; i<15; i++) {
+                                                        +input-l(i)
+                                                    -}
+
+                    //- ================  'Уравнения'  =====================
+                    div(isSelected='false' contentName='equations')
+
+                        //- Уравнение 3-й степени
+                        .row
+                            .col-sm-2.col-md-2.col-lg-3
+                            .pendulum-win#equation-3.col-xs-12.col-sm-8.col-md-8.col-lg-6
+                                p.frame-name.light Уравнение 3-й степени
+                                .input-wrapper#diapason3
+                                    .pendulum-sector
+                                        p.light X#[sub НАЧ.]
+                                        input#equ-3-dx1(type="number")
+                                    .pendulum-sector
+                                        p.light X#[sub КОН.]
+                                        input#equ-3-dx2(type="number")
+                                    .pendulum-sector
+                                        p.light Y#[sub НАЧ.]
+                                        input#equ-3-dy1(type="number")
+                                    .pendulum-sector
+                                        p.light Y#[sub КОН.]
+                                        input#equ-3-dy2(type="number")
+                                    .pendulum-sector
+                                        p.light Разметка
+                                        input#equ-3-sc(type="number")
+                                canvas.col-xs-12#equ-3-canvas(width="800" height="550")
+                                .panel-control
+                                    .input-wrapper#equation-3-koef
+                                        p.light.equ-p a∙x#[sup 3] + b∙x#[sup 2] + c∙x + d = 0
+                                        .pendulum-sector
+                                            p.light a &ne; 0
+                                            input#equ-3-inA(type="number")
+                                        .pendulum-sector
+                                            p.light b
+                                            input#equ-3-inB(type="number")
+                                        .pendulum-sector
+                                            p.light c
+                                            input#equ-3-inC(type="number")
+                                        .pendulum-sector
+                                            p.light d
+                                            input#equ-3-inD(type="number")
+                                    .input-wrapper#equation-3-kor
+                                        p.light.answer#equ-3-x1 x#[sub 1] =
+                                        p.light.answer#equ-3-x2 x#[sub 2] =
+                                        p.light.answer#equ-3-x3 x#[sub 3] =
+
+                        //- Уравнение 4-й степени
+                        .row
+                            .col-sm-2.col-md-2.col-lg-3
+                            .pendulum-win#equation-4.col-xs-12.col-sm-8.col-md-8.col-lg-6
+                                p.frame-name.light Уравнение 4-й степени
+                                .input-wrapper#diapason4
+                                    .pendulum-sector
+                                        p.light X#[sub НАЧ.]
+                                        input#equ-4-dx1(type="number")
+                                    .pendulum-sector
+                                        p.light X#[sub КОН.]
+                                        input#equ-4-dx2(type="number")
+                                    .pendulum-sector
+                                        p.light Y#[sub НАЧ.]
+                                        input#equ-4-dy1(type="number")
+                                    .pendulum-sector
+                                        p.light Y#[sub КОН.]
+                                        input#equ-4-dy2(type="number")
+                                    .pendulum-sector
+                                        p.light Разметка
+                                        input#equ-4-sc(type="number")
+                                canvas.col-xs-12#equ-4-canvas(width="800" height="550")
+                                .panel-control
+                                    .input-wrapper#equation-4-koef
+                                        p.light.equ-p a∙x#[sup 4] + b∙x#[sup 3] + c∙x#[sup 2] + d∙x + e = 0
+                                        .pendulum-sector
+                                            p.light a &ne; 0
+                                            input#equ-4-inA(type="number")
+                                        .pendulum-sector
+                                            p.light b
+                                            input#equ-4-inB(type="number")
+                                        .pendulum-sector
+                                            p.light c
+                                            input#equ-4-inC(type="number")
+                                        .pendulum-sector
+                                            p.light d
+                                            input#equ-4-inD(type="number")
+                                        .pendulum-sector
+                                            p.light e
+                                            input#equ-4-inE(type="number")
+                                    .input-wrapper#equation-4-kor
+                                        p.light.answer#equ-4-x1 x#[sub 1] =
+                                        p.light.answer#equ-4-x2 x#[sub 2] =
+                                        p.light.answer#equ-4-x3 x#[sub 3] =
+                                        p.light.answer#equ-4-x4 x#[sub 4] =
+
+            .row
+                .col-xs-12.line
+
+            //- ================  footer  =====================
+            .row.footer
+                .col-xs-12
+                    p.light.copyright &#169; Селезнёв А.Е. 2017г.
+                        a(href='#') Email
+
+        //- Передача необходимых элементов DOM в глобальный объект PENDULUM
+        script(src="js/elementsDOM.js")
