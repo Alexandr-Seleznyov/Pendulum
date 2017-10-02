@@ -10,7 +10,7 @@ define(['draw_tools/pendulum_ball',
         'my_math/equation_3',
         'my_math/equation_4',
         'draw_tools/graph',
-        'view'
+        'other/view'
         ], function(
             pendulum_ball, // Конструктор объекта с методами для прорисовки движения маятника
             functions, // Вспомогательные функции для маятника
