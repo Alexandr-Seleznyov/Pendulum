@@ -2,6 +2,9 @@
 // =============================================================
 // pendulum_ball
 // Конструктор объекта PendulumBall, для прорисовки движения маятника
+// Примечание:
+//      Переменная options.countX - количество операций за четверть периода.
+//      Она влияет на 'сглаженность' анимации и на СКОРОСТЬ !!!
 // =============================================================
 
 define(['pendulum_tools/functions',
@@ -51,7 +54,7 @@ define(['pendulum_tools/functions',
     //     dt - Время прохождения от x1 до x2
     //
     //     g - Ускорение свободного падения
-    //     countX - Количество операций за четверть периода
+    //     countX - Количество операций за четверть периода (Влияет на 'сглаженность' анимации и на СКОРОСТЬ)
     //
     //     ballR - радиус шара
     //     ballColor - цвет шара
@@ -105,7 +108,7 @@ define(['pendulum_tools/functions',
 
         // Установка некоторых свойств по умолчанию:
         if (!options.g)              options.g = 9.8;
-        if (!options.countX)         options.countX = 100;
+        if (!options.countX)         options.countX = 50;
         if (!options.axisIsVisible)  options.axisIsVisible = true;
         if (!options.ballR)          options.ballR = options.l / 40;
         if (!options.ballColor)      options.ballColor = '#AB0000';
